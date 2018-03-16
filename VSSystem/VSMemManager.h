@@ -6,7 +6,7 @@
 #include <new.h>
 #define VS_NEW new
 #define VS_DELETE delete
-#define USE_STL_TYPE_TRAIT
+//#define USE_STL_TYPE_TRAIT
 #ifdef USE_STL_TYPE_TRAIT
 	#include <type_traits>
 #endif // USE_STL_TYPE_TRAIT
@@ -539,25 +539,6 @@ namespace VSEngine2
 
 #define USE_CUSTOM_NEW
 
-#ifdef USE_CUSTOM_NEW
-FORCEINLINE void* operator new(size_t uiSize)
-{
-	return VSEngine2::VSMemObject::GetMemManager().Allocate((unsigned int)uiSize,0,false);
-}
-FORCEINLINE void* operator new[] (size_t uiSize)
-{
-	return VSEngine2::VSMemObject::GetMemManager().Allocate((unsigned int)uiSize,0,true);
-}
-
-FORCEINLINE void operator delete (void* pvAddr)
-{
-	return VSEngine2::VSMemObject::GetMemManager().Deallocate((char *)pvAddr,0,false);
-}
-FORCEINLINE void operator delete[] (void* pvAddr)
-{
-	return VSEngine2::VSMemObject::GetMemManager().Deallocate((char *)pvAddr,0,true);
-}
-#endif
 
 
 #define VSMAC_DELETE(p) if(p){VS_DELETE p; p = 0;}

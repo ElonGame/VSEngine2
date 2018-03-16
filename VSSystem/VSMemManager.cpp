@@ -3,6 +3,25 @@
 #include <DbgHelp.h>
 // #define _CRTDBG_MAP_ALLOC
 // #include <crtdbg.h>
+#ifdef USE_CUSTOM_NEW
+void* operator new(size_t uiSize)
+{
+	return VSEngine2::VSMemObject::GetMemManager().Allocate((unsigned int)uiSize, 0, false);
+}
+void* operator new[](size_t uiSize)
+{
+	return VSEngine2::VSMemObject::GetMemManager().Allocate((unsigned int)uiSize, 0, true);
+}
+
+void operator delete (void* pvAddr)
+{
+	return VSEngine2::VSMemObject::GetMemManager().Deallocate((char *)pvAddr, 0, false);
+}
+void operator delete[](void* pvAddr)
+{
+	return VSEngine2::VSMemObject::GetMemManager().Deallocate((char *)pvAddr, 0, true);
+}
+#endif
 namespace VSEngine2
 {
 VSCriticalSection VSMemWin32::ms_MemLock;
